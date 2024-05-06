@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - logicalFilePath: 20240305-10-create-table-comment.yaml
+  - changeSet:
+      id: 20240305-1
+      author: RuslanAghakishiyev
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: ID
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CONTENT
+                  remarks: content
+                  type: VARCHAR2(100 BYTE)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CREATED_DATE
+                  remarks: Inserted row date
+                  type: TIMESTAMP(6)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: POST_ID
+                  remarks: Foreign key to POST table
+                  type: SERIAL
+            remarks: Comment entity
+            tableName: COMMENT
+        - addForeignKeyConstraint:
+            baseColumnNames: POST_ID
+            baseTableName: COMMENT
+            constraintName: FK_COMMENT_POST
+            referencedColumnNames: ID
+            referencedTableName: POST

@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - logicalFilePath: 20240305-10-create-table-user.yaml
+  - changeSet:
+      id: 20240305-1
+      author: RuslanAghakishiyev
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: ID
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: USERNAME
+                  remarks: username
+                  type: VARCHAR2(100 BYTE)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: EMAIL
+                  remarks: email
+                  type: VARCHAR2(100 BYTE)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  remarks: password
+                  type: VARCHAR2(100 BYTE)
+            remarks: User entity
+            tableName: user

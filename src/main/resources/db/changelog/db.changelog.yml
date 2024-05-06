@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/changelog/tbl-user
+  - includeAll:
+      path: db/changelog/tbl-post
+  - includeAll:
+      path: db/changelog/tbl-comment

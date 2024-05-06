@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - logicalFilePath: 20240305-10-create-table-post.yaml
+  - changeSet:
+      id: 20240305-1
+      author: RuslanAghakishiyev
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: ID
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: TITLE
+                  remarks: TITLE
+                  type: VARCHAR2(100 BYTE)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CONTENT
+                  remarks: content
+                  type: VARCHAR2(100 BYTE)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CREATED_DATE
+                  remarks: Inserted row date
+                  type: TIMESTAMP(6)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: USER_ID
+                  remarks: Foreign key to user table
+                  type: SERIAL
+            remarks: Post entity
+            tableName: POST
+        - addForeignKeyConstraint:
+            baseColumnNames: USER_ID
+            baseTableName: POST
+            constraintName: FK_POST_USER
+            referencedColumnNames: ID
+            referencedTableName: user

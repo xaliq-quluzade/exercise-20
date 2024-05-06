@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: abbtech-module-three-practice
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/abb_tech
+    username: psg_user
+    password: pass
+    hikari:
+      schema: public
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    show-sql: true
+  liquibase:
+    enabled: ${LIQUIBASE_ENABLE:true}
+    change-log: classpath:db/changelog/db.changelog.yml
+    default-schema: public
+
+custom:
+  property:
+    name: Name
+    value: 10
