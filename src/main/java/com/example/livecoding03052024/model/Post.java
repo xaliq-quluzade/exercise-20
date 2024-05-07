@@ -25,6 +25,6 @@ public class Post {
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private Set<Comment> comments;
 }

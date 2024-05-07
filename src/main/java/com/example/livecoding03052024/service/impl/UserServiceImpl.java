@@ -1,6 +1,7 @@
 package com.example.livecoding03052024.service.impl;
 
 import com.example.livecoding03052024.dto.request.UserRequestDto;
+import com.example.livecoding03052024.dto.response.UserPostResponseDto;
 import com.example.livecoding03052024.dto.response.UserResponseDto;
 import com.example.livecoding03052024.model.User;
 import com.example.livecoding03052024.repository.UserRepository;
@@ -44,7 +45,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getById(Integer id) {
         return userRepository.findById(id)
-                .map(user -> new UserResponseDto(user.getUsername(), user.getEmail()))
+                .map(user -> new UserResponseDto(user.getUsername(), user.getEmail(),
+                        new UserPostResponseDto(
+                                user.getPost().getTitle(),
+                                user.getPost().getContent(),
+                                user.getPost().getCreatedDate())))
                 .orElseThrow();
     }
 
@@ -52,7 +57,10 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> getAll() {
         List<UserResponseDto> userResponseDtoList = userRepository.findAll()
                 .stream()
-                .map(user -> new UserResponseDto(user.getUsername(), user.getEmail()))
+                .map(user -> new UserResponseDto(user.getUsername(), user.getEmail(), new UserPostResponseDto(
+                        user.getPost().getTitle(),
+                        user.getPost().getContent(),
+                        user.getPost().getCreatedDate())))
                 .toList();
 
         return userResponseDtoList;

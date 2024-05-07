@@ -1,7 +1,9 @@
 package com.example.livecoding03052024.service.impl;
 
 import com.example.livecoding03052024.dto.request.CommentRequestDto;
+import com.example.livecoding03052024.dto.response.CommentPostResponseDto;
 import com.example.livecoding03052024.dto.response.CommentResponseDto;
+import com.example.livecoding03052024.dto.response.PostUserResponseDto;
 import com.example.livecoding03052024.model.Comment;
 import com.example.livecoding03052024.repository.CommentRepository;
 import com.example.livecoding03052024.repository.PostRepository;
@@ -57,7 +59,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto getById(Integer id) {
         return commentRepository.findById(id)
-                .map(comment -> new CommentResponseDto(comment.getContent(), comment.getCreatedDate()))
+                .map(comment -> new CommentResponseDto(comment.getContent(), comment.getCreatedDate(),
+                        new CommentPostResponseDto(comment.getPost().getTitle(), comment.getPost().getContent(),
+                                comment.getPost().getCreatedDate(),
+                                new PostUserResponseDto(comment.getPost().getUser().getUsername(), comment.getPost().getUser().getEmail()))))
                 .orElseThrow();
     }
 
@@ -65,7 +70,10 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentResponseDto> getAll() {
         List<CommentResponseDto> commentResponseDtoList = commentRepository.findAll()
                 .stream()
-                .map(comment -> new CommentResponseDto(comment.getContent(), comment.getCreatedDate()))
+                .map(comment -> new CommentResponseDto(comment.getContent(), comment.getCreatedDate(),
+                        new CommentPostResponseDto(comment.getPost().getTitle(), comment.getPost().getContent(),
+                                comment.getPost().getCreatedDate(),
+                                new PostUserResponseDto(comment.getPost().getUser().getUsername(), comment.getPost().getUser().getEmail()))))
                 .toList();
 
         return commentResponseDtoList;

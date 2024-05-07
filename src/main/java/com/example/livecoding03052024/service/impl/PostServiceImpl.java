@@ -1,7 +1,9 @@
 package com.example.livecoding03052024.service.impl;
 
 import com.example.livecoding03052024.dto.request.PostRequestDto;
+import com.example.livecoding03052024.dto.response.PostCommentResponseDto;
 import com.example.livecoding03052024.dto.response.PostResponseDto;
+import com.example.livecoding03052024.dto.response.PostUserResponseDto;
 import com.example.livecoding03052024.model.Post;
 import com.example.livecoding03052024.repository.PostRepository;
 import com.example.livecoding03052024.repository.UserRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +52,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto getById(Integer id) {
         return postRepository.findById(id)
-                .map(post -> new PostResponseDto(post.getTitle(), post.getContent(), post.getCreatedDate()))
+                .map(post -> new PostResponseDto(post.getTitle(), post.getContent(), post.getCreatedDate(),
+                        new PostUserResponseDto(post.getUser().getUsername(), post.getUser().getEmail()),
+                        post.getComments().stream().map(comment ->
+                                        new PostCommentResponseDto(comment.getContent(), comment.getCreatedDate()))
+                                .collect(Collectors.toSet())
+                ))
                 .orElseThrow();
     }
 
@@ -57,7 +65,12 @@ public class PostServiceImpl implements PostService {
     public List<PostResponseDto> getAll() {
         List<PostResponseDto> postResponseDtoList = postRepository.findAll()
                 .stream()
-                .map(post -> new PostResponseDto(post.getTitle(), post.getContent(), post.getCreatedDate()))
+                .map(post -> new PostResponseDto(post.getTitle(), post.getContent(), post.getCreatedDate(),
+                        new PostUserResponseDto(post.getUser().getUsername(), post.getUser().getEmail()),
+                        post.getComments().stream().map(comment ->
+                                        new PostCommentResponseDto(comment.getContent(), comment.getCreatedDate()))
+                                .collect(Collectors.toSet())
+                ))
                 .toList();
 
         return postResponseDtoList;
